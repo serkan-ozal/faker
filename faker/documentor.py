@@ -26,6 +26,9 @@ class Documentor:
         self.generator = generator
         self.max_name_len: int = 0
         self.already_generated: List[str] = []
+            
+    def foresight_uncover(self):
+        return "foresight uncovered function!"
 
     def get_formatters(
         self,
