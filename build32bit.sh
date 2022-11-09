@@ -13,4 +13,5 @@ docker run -v ${PWD}:/code -e INSTALL_REQUIREMENTS=${INSTALL_REQUIREMENTS} i386/
     && export LANG='en_US.UTF-8' \
     && cd /code \
     && python3.7 -m tox -e py \
+    && coverage xml \
     && coverage report"
