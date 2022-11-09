@@ -12,4 +12,5 @@ docker run -v ${PWD}:/code -e INSTALL_REQUIREMENTS=${INSTALL_REQUIREMENTS} pytho
     && export LANG='en_US.UTF-8' \
     && cd /code \
     && tox -e py\
+    && coverage xml\
     && coverage report"
