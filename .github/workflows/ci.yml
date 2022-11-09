@@ -8,6 +8,10 @@ on:
     branches:
       - master
 
+env:
+  FORESIGHT_UPLOADER_SIGNER_URL: https://upload.service.runforesight.us
+  WORKFLOW_TELEMETRY_BASE_URL: https://api.service.runforesight.us
+
 permissions:
   contents: read
 
@@ -17,6 +21,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Collect Workflow Telemetry
+      if: always()
+      uses: runforesight/foresight-workflow-kit-action@v1
+      with:
+        api_key: ${{ secrets.FORESIGHT_PROJECT_WALL_APIKEY }}
     - name: Setup pip cache
       uses: actions/cache@v3
       id: pipcache
@@ -42,6 +51,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    - name: Collect Workflow Telemetry
+      if: always()
+      uses: runforesight/foresight-workflow-kit-action@v1
+      with:
+        api_key: ${{ secrets.FORESIGHT_PROJECT_WALL_APIKEY }}
     - name: Setup pip cache
       uses: actions/cache@v3
       id: pipcache
@@ -66,6 +80,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    - name: Collect Workflow Telemetry
+      if: always()
+      uses: runforesight/foresight-workflow-kit-action@v1
+      with:
+        api_key: ${{ secrets.FORESIGHT_PROJECT_WALL_APIKEY }}
     - name: Setup pip cache
       uses: actions/cache@v3
       id: pipcache
@@ -91,6 +110,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    - name: Collect Workflow Telemetry
+      if: always()
+      uses: runforesight/foresight-workflow-kit-action@v1
+      with:
+        api_key: ${{ secrets.FORESIGHT_PROJECT_WALL_APIKEY }}
     - name: Setup pip cache
       uses: actions/cache@v3
       id: pipcache
@@ -115,6 +139,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    - name: Collect Workflow Telemetry
+      if: always()
+      uses: runforesight/foresight-workflow-kit-action@v1
+      with:
+        api_key: ${{ secrets.FORESIGHT_PROJECT_WALL_APIKEY }}
     - name: Setup pip cache
       uses: actions/cache@v3
       id: pipcache
@@ -143,6 +172,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Collect Workflow Telemetry
+      if: always()
+      uses: runforesight/foresight-workflow-kit-action@v1
+      with:
+        api_key: ${{ secrets.FORESIGHT_PROJECT_WALL_APIKEY }}
     - name: Setup pip cache
       uses: actions/cache@v3
       id: pipcache
@@ -173,6 +207,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - name: Collect Workflow Telemetry
+        if: always()
+        uses: runforesight/foresight-workflow-kit-action@v1
+        with:
+          api_key: ${{ secrets.FORESIGHT_PROJECT_WALL_APIKEY }}
       - name: Setup pip cache
         uses: actions/cache@v3
         id: pipcache
@@ -197,13 +236,16 @@ jobs:
           COVERALLS_FLAG_NAME: run-ubuntu-${{ matrix.python }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COVERALLS_SERVICE_NAME: github
-      - name: Publish coverage
-        run: coveralls --service=github
-        env:
-          COVERALLS_PARALLEL: true
-          COVERALLS_FLAG_NAME: run-ubuntu-${{ matrix.python }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COVERALLS_SERVICE_NAME: github
+      - name: Analyze Test and/or Coverage Results
+        uses: runforesight/foresight-test-kit-action@v1
+        if: ${{ always() }}
+        with:
+          api_key: ${{ secrets.FORESIGHT_APIKEY }}
+          test_format: JUNIT
+          test_framework: PYTEST
+          test_path: ./results/**
+          coverage_path: ./coverage.xml
+          coverage_format: COBERTURA/XML
 
   test_windows:
     runs-on: windows-latest
@@ -215,6 +257,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - name: Collect Workflow Telemetry
+        if: always()
+        uses: runforesight/foresight-workflow-kit-action@v1
+        with:
+          api_key: ${{ secrets.FORESIGHT_PROJECT_WALL_APIKEY }}
       - name: Setup pip cache
         uses: actions/cache@v3
         id: pipcache
@@ -232,13 +279,16 @@ jobs:
       - name: Run Tox
         # Run tox using the version of Python in `PATH`
         run: tox -e py
-      - name: Publish coverage
-        run: coveralls --service=github
-        env:
-          COVERALLS_PARALLEL: true
-          COVERALLS_FLAG_NAME: run-ubuntu-${{ matrix.python }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COVERALLS_SERVICE_NAME: github
+      - name: Analyze Test and/or Coverage Results
+        uses: runforesight/foresight-test-kit-action@v1
+        if: ${{ always() }}
+        with:
+          api_key: ${{ secrets.FORESIGHT_APIKEY }}
+          test_format: JUNIT
+          test_framework: PYTEST
+          test_path: ./results/**
+          coverage_path: ./coverage.xml
+          coverage_format: COBERTURA/XML
 
   test_alpine:
     runs-on: ubuntu-latest
@@ -246,6 +296,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Collect Workflow Telemetry
+      if: always()
+      uses: runforesight/foresight-workflow-kit-action@v1
+      with:
+        api_key: ${{ secrets.FORESIGHT_PROJECT_WALL_APIKEY }}
     - name: Setup pip cache
       uses: actions/cache@v3
       id: pipcache
@@ -266,6 +321,16 @@ jobs:
       env:
         TOXENV: alpine
         TEST_ALPINE: 1
+    - name: Analyze Test and/or Coverage Results
+      uses: runforesight/foresight-test-kit-action@v1
+      if: ${{ always() }}
+      with:
+        api_key: ${{ secrets.FORESIGHT_APIKEY }}
+        test_format: JUNIT
+        test_framework: PYTEST
+        test_path: ./results/**
+        coverage_path: ./coverage.xml
+        coverage_format: COBERTURA/XML
 
   test_32bit:
     runs-on: ubuntu-latest
@@ -273,6 +338,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Collect Workflow Telemetry
+      if: always()
+      uses: runforesight/foresight-workflow-kit-action@v1
+      with:
+        api_key: ${{ secrets.FORESIGHT_PROJECT_WALL_APIKEY }}
     - name: Setup pip cache
       uses: actions/cache@v3
       id: pipcache
@@ -293,13 +363,23 @@ jobs:
       env:
         TOXENV: 32bit
         TEST_32BIT: 1
+    - name: Analyze Test and/or Coverage Results
+      uses: runforesight/foresight-test-kit-action@v1
+      if: ${{ always() }}
+      with:
+        api_key: ${{ secrets.FORESIGHT_APIKEY }}
+        test_format: JUNIT
+        test_framework: PYTEST
+        test_path: ./results/**
+        coverage_path: ./coverage.xml
+        coverage_format: COBERTURA/XML
 
   finish:
     needs: [test_ubuntu, test_windows, test_alpine, test_32bit]
     runs-on: ubuntu-latest
     steps:
-    - name: Coveralls Finished
-      uses: AndreMiras/coveralls-python-action@develop
+    - name: Collect Workflow Telemetry
+      if: always()
+      uses: runforesight/foresight-workflow-kit-action@v1
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        parallel-finished: true
+        api_key: ${{ secrets.FORESIGHT_PROJECT_WALL_APIKEY }}
