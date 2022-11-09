@@ -208,7 +208,7 @@ jobs:
         uses: runforesight/foresight-test-kit-action@v1
         if: ${{ always() }}
         with:
-          api_key: ${{ secrets.FORESIGHT_APIKEY }}
+          api_key: ${{ secrets.FORESIGHT_PROJECT_WALL_APIKEY }}
           test_format: JUNIT
           test_framework: PYTEST
           test_path: ./results/**
@@ -251,7 +251,7 @@ jobs:
         uses: runforesight/foresight-test-kit-action@v1
         if: ${{ always() }}
         with:
-          api_key: ${{ secrets.FORESIGHT_APIKEY }}
+          api_key: ${{ secrets.FORESIGHT_PROJECT_WALL_APIKEY }}
           test_format: JUNIT
           test_framework: PYTEST
           test_path: ./results/**
@@ -293,7 +293,7 @@ jobs:
       uses: runforesight/foresight-test-kit-action@v1
       if: ${{ always() }}
       with:
-        api_key: ${{ secrets.FORESIGHT_APIKEY }}
+        api_key: ${{ secrets.FORESIGHT_PROJECT_WALL_APIKEY }}
         test_format: JUNIT
         test_framework: PYTEST
         test_path: ./results/**
@@ -335,7 +335,7 @@ jobs:
       uses: runforesight/foresight-test-kit-action@v1
       if: ${{ always() }}
       with:
-        api_key: ${{ secrets.FORESIGHT_APIKEY }}
+        api_key: ${{ secrets.FORESIGHT_PROJECT_WALL_APIKEY }}
         test_format: JUNIT
         test_framework: PYTEST
         test_path: ./results/**
