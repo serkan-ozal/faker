@@ -254,8 +254,8 @@ jobs:
           test_format: JUNIT
           test_framework: PYTEST
           test_path: ./results/**
-          coverage_path: ./coverage.xml
-          coverage_format: COBERTURA/XML
+          #coverage_path: ./coverage.xml
+          #coverage_format: COBERTURA/XML
 
   test_alpine:
     runs-on: ubuntu-latest
