@@ -53,3 +53,8 @@ jobs:
           test_path: ./results/**
           coverage_path: ./coverage.xml
           coverage_format: COBERTURA/XML
+      - name: Upload coverage file
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-artifact
+          path: ./coverage.xml
