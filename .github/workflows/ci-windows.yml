@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
 
 env:
-  FORESIGHT_UPLOADER_SIGNER_URL: https://upload.service.runforesight.us
-  WORKFLOW_TELEMETRY_BASE_URL: https://api.service.runforesight.us
+  FORESIGHT_UPLOADER_SIGNER_URL: https://upload.service.runforesight.me
+  WORKFLOW_TELEMETRY_BASE_URL: https://api.service.runforesight.me
   FORESIGHT_LOG_LEVEL: debug
 
 permissions:
@@ -25,7 +25,7 @@ jobs:
         if: always()
         uses: runforesight/foresight-workflow-kit-action@v1
         with:
-          api_key: ${{ secrets.FORESIGHT_PROJECT_WALL_APIKEY }}
+          api_key: ${{ secrets.FORESIGHT_API_KEY }}
       - name: Setup pip cache
         uses: actions/cache@v3
         id: pipcache
@@ -48,7 +48,7 @@ jobs:
         uses: runforesight/foresight-test-kit-action@v1
         if: ${{ always() }}
         with:
-          api_key: ${{ secrets.FORESIGHT_PROJECT_WALL_APIKEY }}
+          api_key: ${{ secrets.FORESIGHT_API_KEY }}
           test_format: JUNIT
           test_framework: PYTEST
           test_path: ./results/**
